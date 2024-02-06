@@ -1,6 +1,7 @@
 const db = require("../../models/index");
 const UserModel = db.users;
 const DepartmentModel = db.departments;
+const SystemLogModel = db.systemLog;
 
 const DepartmentUserAssociation = db.department_user_associations;
 
@@ -62,10 +63,10 @@ module.exports.updateUser = async (req, res) => {
       where: { id: req?.params?.id },
     });
 
-    await SystemLogModel.create({
-      title: `${user?.firstName} ${user?.lastName} Record Has Been Updated`,
-      companyId: user?.companyId,
-    });
+    // await SystemLogModel.create({
+    //   title: `${user?.firstName} ${user?.lastName} Record Has Been Updated`,
+    //   companyId: user?.companyId,
+    // });
 
     res.status(200).send({
       user,
