@@ -48,6 +48,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      noOfUsers: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

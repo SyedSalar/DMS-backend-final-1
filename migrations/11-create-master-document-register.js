@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       departmentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       departmentName: {
         type: Sequelize.STRING,

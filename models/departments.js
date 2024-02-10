@@ -41,6 +41,9 @@ module.exports = (sequelize, DataTypes) => {
       parentId: {
         type: DataTypes.INTEGER,
       },
+      noOfUsers: {
+        type: DataTypes.INTEGER,
+      },
     },
     {
       sequelize,

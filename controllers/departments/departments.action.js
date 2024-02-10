@@ -13,13 +13,15 @@ module.exports.createDepartment = async (req, res) => {
       var deptArray=req.body.title;
       var deptSuffix=req.body.suffix;
      for (let index = 0; index < deptArray.length; index++) {
-let mySuffix=deptSuffix[index];
+      let mySuffix=deptSuffix[index];
       let element = deptArray[index];
       console.log(element)
       req.body.title=element
       req.body.suffix=mySuffix
       console.log(req.body.title,req.body.suffix);
       console.log('check change',req.body);
+      req.body.noOfUsers = 0;
+      console.log(req.body);
       await DepartmentModel.create(req?.body);
       await SystemLogModel.create({
         companyId: req?.body?.companyId,
@@ -42,6 +44,15 @@ let mySuffix=deptSuffix[index];
 module.exports.associateUserDepartment = async (req, res) => {
   try {
     await DepartmentUserAssociation.create(req?.body);
+    console.log(req.body);
+    const id = req?.body.departmentId;
+    const departmentUpdate = await DepartmentModel.findOne({
+      where: { id },
+    });
+    const updatedDepartment = await departmentUpdate.update({
+      noOfUsers: departmentUpdate.noOfUsers + 1,
+    });
+    console.log(updatedDepartment);
     await SystemLogModel.create({
       companyId: req?.body?.companyId,
       title: `${req?.body?.authorName} associated with Department ${req?.body?.title}`,
@@ -59,6 +70,31 @@ module.exports.listDepartments = async (req, res) => {
       where: { companyId: req?.query?.companyId },
     });
     return res.status(200).send(departments);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+};
+
+
+module.exports.updateUser = async (req, res) => {
+  try {
+    const companyId = req?.query?.companyId;
+
+    // Fetch the department
+    const department = await DepartmentModel.findOne({
+      where: { companyId },
+    });
+
+    if (!department) {
+      return res.status(404).send({ message: 'Department not found' });
+    }
+
+    const updatedDepartment = await department.update({
+      noOfUsers: department.noOfUsers + 1,
+    });
+
+    return res.status(200).send(updatedDepartment);
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ message: err.message });

@@ -14,6 +14,7 @@ module.exports.createProject = async (req, res) => {
       req.body.departmentId=element
       console.log(req.body.title);
       console.log('check change',req.body);
+      req.body.noOfUsers = 0
       await ProjectModel.create(req?.body);
       await SystemLogModel.create({
         companyId: req?.body?.companyId,

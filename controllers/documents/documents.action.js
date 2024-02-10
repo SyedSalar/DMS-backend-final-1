@@ -40,14 +40,15 @@ module.exports.listMDR = async (req, res) => {
 
 module.exports.createMDR = async (req, res) => {
   try {
+    console.log(req.body);
+
     const mdr = await MDRModel.create(req?.body);
+    console.log(mdr);
     await SystemLogModel.create({
       title: `${req?.body?.authorName} Created MDR ${req?.body?.title}`,
       companyId: req?.body?.companyId,
     });
-    return res
-      .status(200)
-      .send({ message: "Master Document Register Created" });
+    return res.status(200).send({ message: "Master Document Register Created" });
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ message: err.message });
