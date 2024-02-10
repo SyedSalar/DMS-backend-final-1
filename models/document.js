@@ -26,13 +26,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       departmentId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       projectId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
       masterDocumentId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+      },
+      masterDocumentName: {
+        type: DataTypes.STRING,
       },
       content: {
         type: DataTypes.TEXT,

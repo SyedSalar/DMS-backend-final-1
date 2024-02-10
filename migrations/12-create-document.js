@@ -16,13 +16,16 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       departmentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       projectId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       masterDocumentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
+      },
+      masterDocumentName: {
+        type: Sequelize.STRING,
       },
       content: {
         type: Sequelize.TEXT,

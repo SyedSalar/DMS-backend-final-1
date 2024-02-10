@@ -57,19 +57,33 @@ module.exports.createMDR = async (req, res) => {
 
 module.exports.createDocument = async (req, res) => {
   try {
-    if (req?.body?.roleId != 1) {
-      const permissionExist = await DocumentPermssionModel.findOne({
-        where: {
-          masterDocumentId: req?.body?.masterDocumentId,
-          userId: req?.body?.userId,
-          companyId: req?.body?.companyId,
-          createDocument: 1,
-        },
-      });
-      if (!permissionExist) {
-        return res.status(403).send({ message: "Permission denied" });
+    // if (req?.body?.roleId != 1) {
+    //   const permissionExist = await DocumentPermssionModel.findOne({
+    //     where: {
+    //       masterDocumentId: req?.body?.masterDocumentId,
+    //       userId: req?.body?.userId,
+    //       companyId: req?.body?.companyId,
+    //       createDocument: 1,
+    //     },
+    //   });
+    //   if (!permissionExist) {
+    //     return res.status(403).send({ message: "Permission denied" });
+    //   }
+    // }
+    const projectCode = req.query.projectCode;
+    const areaCode = req.query.areaCode;
+    const deptSuffix = req.query.deptSuffix;
+
+    const count = await DocumentModel.count({
+      where: {
+        masterDocumentId: req.body.masterDocumentId
       }
-    }
+    });
+    console.log(count);
+
+    let docNumber = `${count+1}`
+
+    // req.body.title = `${projectCode}-${areaCode}-${deptSuffix}-${docNumber}`
     const log = `${req?.body?.userName} Created Document ${req?.body?.title}`;
     const body = omit(req.body, ["roleId", "userId", "userName"]);
     const document = await DocumentModel.create(body);
