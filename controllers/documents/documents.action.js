@@ -1,5 +1,7 @@
 const db = require("../../models/index");
 const DocumentModel = db.documents;
+const CommentsModel = db.comments;
+
 const DepartmentModel = db.departments;
 const ProjectModel = db.projects;
 
@@ -49,6 +51,22 @@ module.exports.createMDR = async (req, res) => {
       companyId: req?.body?.companyId,
     });
     return res.status(200).send({ message: "Master Document Register Created" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+};
+module.exports.createComment = async (req, res) => {
+  try {
+    console.log(req.body.highlight.position.rects);
+
+    const comments = await CommentsModel.create(req?.body);
+    console.log('hi',comments);
+    // await SystemLogModel.create({
+    //   title: `${req?.body?.authorName} Created MDR ${req?.body?.title}`,
+    //   companyId: req?.body?.companyId,
+    // });
+    return res.status(200).send({ message: "Comment saved into DB" });
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ message: err.message });
